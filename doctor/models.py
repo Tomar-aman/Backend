@@ -7,6 +7,7 @@ class DoctorProfile(models.Model):
     clinic_name = models.CharField(max_length=255)
     specialty = models.CharField(max_length=255)
     experience_years = models.IntegerField(blank=True,null=True)
+    token_limit = models.IntegerField(blank=True,null=True)
     gender = models.CharField(max_length=10)
     age = models.IntegerField(blank=True,null=True)
     city = models.CharField(max_length=50,blank=True,null=True)

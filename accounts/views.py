@@ -66,26 +66,23 @@ class LoginView(APIView):
     """
     permission_classes = [AllowAny]
     def post(self, request):
-        phone_number = request.data.get('phone_number')
-        email = request.data.get('email')
+        number_email = request.data.get('number_email')
+        # email = request.data.get('email')
         password = request.data.get('password')
 
         user = None
         
-        if phone_number:
+        if number_email:
             try:
-                user = User.objects.get(phone_number=phone_number)
+                if '@' in number_email:  # Assume it's an email if it contains '@'
+                    user = User.objects.get(email=number_email)
+                else:
+                    user = User.objects.get(phone_number=number_email)
             except User.DoesNotExist:
-                return Response({"error": "User with this phone number does not exist"}, status=status.HTTP_400_BAD_REQUEST)
-        
-        elif email:
-            try:
-                user = User.objects.get(email=email)
-            except User.DoesNotExist:
-                return Response({"error": "User with this email does not exist"}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({"error": "User with these credentials does not exist"})
         
         if user and user.check_password(password):
-            user = authenticate(username=phone_number, password=password)
+            user = authenticate(username=user.phone_number, password=password)
             if user:
                 token, created = Token.objects.get_or_create(user=user)
                 return Response({'token': token.key,

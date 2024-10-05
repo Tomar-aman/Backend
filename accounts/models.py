@@ -24,6 +24,9 @@ class User(AbstractUser):
     
     def is_patient(self):
         return self.role == self.PATIENT
+    
+    def __str__(self):
+        return f"{self.first_name}"
 
 
 from django.utils import timezone
@@ -39,3 +42,7 @@ class OTPVerification(models.Model):
     def is_valid(self):
         # Check if OTP is valid for 5 minutes
         return self.created_at >= timezone.now() - timezone.timedelta(minutes=5)
+
+    def __str__(self):
+        return f"{self.phone_number}"
+    
