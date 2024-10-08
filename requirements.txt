@@ -24,3 +24,4 @@ tzdata==2024.2
 urllib3==2.2.3
 whitenoise==6.7.0
 yarl==1.13.1
+django-cors-headers==4.4.0
