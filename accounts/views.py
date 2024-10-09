@@ -43,8 +43,9 @@ class VerifyOTPView(APIView):
     def post(self, request):
         phone_number = request.session.get('verified_phone_number')
         otp = request.data.get('otp')
-        
+        print(phone_number)
         # Get the latest OTP for the phone number
+
         try:
             otp_record = OTPVerification.objects.filter(phone_number=phone_number).latest('created_at')
         except OTPVerification.DoesNotExist:
