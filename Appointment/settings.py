@@ -66,7 +66,7 @@ CORS_ALLOWED_ORIGINS = [
 ]
 CORS_ALLOW_CREDENTIALS = True
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
+CSRF_TRUSTED_ORIGINS = ['http://localhost:3000'] 
 ROOT_URLCONF = 'Appointment.urls'
 AUTH_USER_MODEL = 'accounts.User'
 TEMPLATES = [
