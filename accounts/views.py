@@ -41,7 +41,7 @@ class VerifyOTPView(APIView):
     """
     permission_classes = [AllowAny]
     def post(self, request):
-        phone_number = request.session.get('verified_phone_number')
+        phone_number = request.data.get('phone_number')
         otp = request.data.get('otp')
         print(phone_number)
         # Get the latest OTP for the phone number
