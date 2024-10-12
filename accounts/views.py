@@ -98,13 +98,11 @@ class RegisterView(APIView):
     permission_classes = [AllowAny]
     def post(self, request):
         # Retrieve the verified phone number from the session
-        phone_number = request.session.get('verified_phone_number')
+        phone_number = request.data.get('phone_number')
+        is_verfiy=OTPVerification.objects.filter(phone_number=phone_number,is_verified=True).exists()
 
-        if not phone_number:
+        if not is_verfiy:
             return Response({"error": "Phone number not verified. Please verify OTP first."}, status=status.HTTP_400_BAD_REQUEST)
-
-        # Add the phone number to the request data
-        request.data['phone_number'] = phone_number
 
         # Proceed with registration
         serializer = UserRegistrationSerializer(data=request.data)
