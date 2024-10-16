@@ -51,3 +51,44 @@ class BookAppointmentView(APIView):
         return Response({
             "message": f"Appointment booked successfully. Your token number is {token_number}"
         }, status=status.HTTP_201_CREATED)
+
+class ViewTokensForToday(APIView):
+    """
+    Allows a doctor to view all patients with tokens for the current day.
+    """
+    def get(self, request):
+        doctor_id = request.user.doctorprofile.id  # Assuming the doctor is authenticated
+        today = datetime.date.today()
+        
+        # Get all tokens for the doctor for today
+        tokens = Token.objects.filter(doctor_id=doctor_id, created_at=today).order_by('token_number')
+
+        token_list = [
+            {
+                "patient_name": token.patient.user.get_full_name(),
+                "token_number": token.token_number,
+                "status": token.status,  # Waiting, In Progress, Served
+                "created_at": token.created_at
+            }
+            for token in tokens
+        ]
+
+        return Response({"tokens": token_list}, status=status.HTTP_200_OK)
+
+class UpdateTokenStatus(APIView):
+    """
+    Allows a doctor to update the status of a patient's token (e.g., mark as served).
+    """
+    def post(self, request):
+        token_id = request.data.get('token_id')
+        new_status = request.data.get('status')  # e.g., 'Served'
+
+        try:
+            token = Token.objects.get(id=token_id)
+            token.is_served = True
+            token.save()
+
+            return Response({"message": "Token status updated successfully"}, status=status.HTTP_200_OK)
+
+        except Token.DoesNotExist:
+            return Response({"error": "Token not found"}, status=status.HTTP_404_NOT_FOUND)
