@@ -2,21 +2,6 @@
 from django.db import models
 from accounts.models import User
 
-class DoctorProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    specialty = models.CharField(max_length=255)
-    experience_years = models.IntegerField(blank=True,null=True)
-    token_limit = models.IntegerField(blank=True,null=True)
-    gender = models.CharField(max_length=10)
-    age = models.IntegerField(blank=True,null=True)
-    city = models.CharField(max_length=50,blank=True,null=True)
-    state = models.CharField(max_length=5,blank=True,null=True)
-    profile_picture = models.ImageField(upload_to='media/profile_pictures/', null=True, blank=True)
-
-    def __str__(self):
-        return f"{self.user.first_name}"
-    
-from django.db import models
 
 class HospitalClinic(models.Model):
     name = models.CharField(max_length=255)
@@ -28,6 +13,26 @@ class HospitalClinic(models.Model):
 
     def __str__(self):
         return self.name
+
+
+
+class DoctorProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    specialty = models.CharField(max_length=255)
+    experience_years = models.IntegerField(blank=True,null=True)
+    token_limit = models.IntegerField(blank=True,null=True)
+    gender = models.CharField(max_length=10)
+    age = models.IntegerField(blank=True,null=True)
+    city = models.CharField(max_length=50,blank=True,null=True)
+    state = models.CharField(max_length=5,blank=True,null=True)
+    profile_picture = models.ImageField(upload_to='media/profile_pictures/', null=True, blank=True)
+    hospital_clinic = models.OneToOneField(HospitalClinic, on_delete=models.CASCADE,blank=True,null=True)
+
+
+    def __str__(self):
+        return f"{self.user.first_name}"
+ 
+ 
 
 class HospitalImage(models.Model):
     hospital_clinic = models.ForeignKey(HospitalClinic, related_name='images', on_delete=models.CASCADE)

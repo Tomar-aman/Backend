@@ -43,3 +43,17 @@ class OTPVerification(models.Model):
     def __str__(self):
         return f"{self.phone_number}"
     
+
+
+
+class APICallLog(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    method = models.CharField(max_length=10)
+    endpoint = models.CharField(max_length=255)
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    user_agent = models.CharField(max_length=255, blank=True, null=True)
+    platform = models.CharField(max_length=50, blank=True, null=True)  # "web" or "mobile"
+
+    def __str__(self):
+        return f"API Call - {self.endpoint} by {self.user or 'Anonymous'} on {self.timestamp}"

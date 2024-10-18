@@ -6,6 +6,8 @@ from .models import DoctorProfile ,HospitalClinic, HospitalImage, DoctorEducatio
 from .serializers import DoctorProfileSerializer,HospitalClinicSerializer, HospitalImageSerializer, DoctorEducationSerializer, DoctorVerificationSerializer
 from rest_framework.parsers import MultiPartParser, FormParser
 from accounts.models import User
+
+
 class DoctorProfileView(APIView):
     # parser_classes = [MultiPartParser, FormParser]
     permission_classes = [IsAuthenticated]

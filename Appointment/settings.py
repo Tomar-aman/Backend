@@ -55,7 +55,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-     'corsheaders.middleware.CorsMiddleware'
+     'corsheaders.middleware.CorsMiddleware',
+     'accounts.middleware.APICallTrackingMiddleware'
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
