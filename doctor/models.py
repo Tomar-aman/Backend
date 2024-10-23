@@ -24,7 +24,7 @@ class DoctorProfile(models.Model):
     gender = models.CharField(max_length=10)
     age = models.IntegerField(blank=True,null=True)
     city = models.CharField(max_length=50,blank=True,null=True)
-    state = models.CharField(max_length=5,blank=True,null=True)
+    state = models.CharField(max_length=100,blank=True,null=True)
     profile_picture = models.ImageField(upload_to='media/profile_pictures/', null=True, blank=True)
     hospital_clinic = models.OneToOneField(HospitalClinic, on_delete=models.CASCADE,blank=True,null=True)
 
